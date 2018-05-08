@@ -7,15 +7,19 @@ using System.Threading.Tasks;
 
 namespace LabPOO
 {
+    public delegate void retar(List<Properties.recetas> receta, List<Product> cart);
+    public event retar, ;
+
     class Program
     {
         public static List<Product> cart;
         public static List<Product> market;
-
+        public static List<Properties.recetas> receta;
         static void Main(string[] args)
         {
             cart = new List<Product>();
             market = new List<Product>();
+            receta = new List<Properties.recetas>();
             SupplyStore();
             while (true)
             {
@@ -74,6 +78,7 @@ namespace LabPOO
             }
             cart.Clear();
         }
+        
 
         public static void WalkAround()
         {
@@ -133,7 +138,7 @@ namespace LabPOO
         {
             return product.Agregar(cart);
         }
-
+        
         public static void SupplyStore()
         {
             market.Add(new Product("Leche Entera", 820, 89, "1L"));
@@ -159,7 +164,9 @@ namespace LabPOO
             market.Add(new Product("Tomates Pelados en lata", 700, 48, "540g"));
             market.Add(new Product("Queso Parmesano", 3790, 41, "200g"));
             market.Add(new Product("Bolsa de Zanahorias", 890, 74, "1un"));
+            
         }
+        
 
         public static void ShowRecipe()
         {
@@ -186,10 +193,69 @@ namespace LabPOO
             Console.WriteLine("\tPimienta\n\n");
             Console.WriteLine("Presiona ENTER para volver al supermercado...");
             ConsoleKeyInfo response = Console.ReadKey(true);
+            receta.Add(new Properties.recetas("Láminas de Lasaña", "1"));
+            receta.Add(new Properties.recetas("Queso Parmesano", "1"));
+            receta.Add(new Properties.recetas("Mantequilla", "1"));
+            receta.Add(new Properties.recetas("Carne Molida","1"));
+            receta.Add(new Properties.recetas("Vino Sauvignon Blanc Reserva Botella","1"));
+            receta.Add(new Properties.recetas("Tomates Pelados en lata", "1"));
+            receta.Add(new Properties.recetas("Bolsa de Zanahorias","1"));
+            receta.Add(new Properties.recetas("Malla de Cebollas","1"));
+            receta.Add(new Properties.recetas("Aceite de Oliva","1"));
+            receta.Add(new Properties.recetas("Sal Lobos","1"));
+            receta.Add(new Properties.recetas("Pimienta","1"));
+            receta.Add(new Properties.recetas("Harina","1"));
+            receta.Add(new Properties.recetas("Leche Entera","1"));
+
             while (response.Key != ConsoleKey.Enter)
             {
                 response = Console.ReadKey(true);
             }
         }
+        public static void ComprobarProductos(List<Properties.recetas> receta, List<Product> cart)
+        {
+            int i = 0;
+            foreach (Product p in cart)
+            {
+                foreach (Properties.recetas r in receta)
+                {
+                    if (p.Name == r.Name)
+                    {
+                        i = i + 1;
+                    }
+                }
+            }
+            foreach (Properties.recetas r in receta)
+            {
+                if (i == 0)
+                {
+                    Console.WriteLine("no");
+
+                }
+            }
+        }
+        public static void ComprobarCantidades(List<Properties.recetas> receta, List<Product> cart)
+        {
+            int i = 0;
+            foreach (Properties.recetas r in receta) 
+            {
+                foreach (Product p in cart)
+                {
+                    if (p.Name == r.Name)
+                    {
+                        i = i + 1;
+                    }
+                }
+            }
+            foreach (Properties.recetas r in receta)
+            {
+                if (i > Convert.ToInt32(r.unit))
+                {
+                    Console.WriteLine("no");
+                }
+            }
+        }
+
+
     }
 }
